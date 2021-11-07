@@ -3,6 +3,8 @@ package com.hbrs.Controller;
 import com.hbrs.Data.EvaluationRecord;
 import com.hbrs.Service.EvaluationRecordService;
 import lombok.AllArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -15,19 +17,42 @@ public class EvaluationRecordController {
     private final EvaluationRecordService evaluationRecordService;
 
     @GetMapping
-    public List<EvaluationRecord> fetchAllEvaluationRecords(){
-       return evaluationRecordService.getAll();
+    public ResponseEntity<List<EvaluationRecord>> fetchAllEvaluationRecords(){
+        try {
+            return new ResponseEntity<>(evaluationRecordService.getAll(), HttpStatus.OK);
+        }catch (Exception e){
+            return new ResponseEntity<>(null,HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+
     }
     @PostMapping
-    public void createEvaluationRecord(@RequestBody EvaluationRecord evaluationRecord){
-        evaluationRecordService.createEV(evaluationRecord);
+    public ResponseEntity createEvaluationRecord(@RequestBody EvaluationRecord evaluationRecord){
+        try {
+            evaluationRecordService.createEV(evaluationRecord);
+            return ResponseEntity.status(HttpStatus.CREATED).build();
+        }catch (Exception e){
+            return ResponseEntity.internalServerError().build();
+        }
+
     }
     @PutMapping
-    public void updateEvaluationRecord(@RequestBody EvaluationRecord evaluationRecord){
-        evaluationRecordService.updateEV(evaluationRecord);
+    public ResponseEntity updateEvaluationRecord(@RequestBody EvaluationRecord evaluationRecord){
+        try {
+            evaluationRecordService.updateEV(evaluationRecord);
+            return ResponseEntity.ok().build();
+        }catch (Exception e){
+            return ResponseEntity.internalServerError().build();
+        }
+
     }
     @DeleteMapping(path = "{sid}")
-    public void deleteEvaluationRecords(@PathVariable("sid") int sid){
-        evaluationRecordService.deleteEVs(sid);
+    public ResponseEntity deleteEvaluationRecords(@PathVariable("sid") int sid){
+        try {
+            evaluationRecordService.deleteEVs(sid);
+            return ResponseEntity.ok().build();
+        }catch (Exception e){
+            return ResponseEntity.internalServerError().build();
+        }
+
     }
 }

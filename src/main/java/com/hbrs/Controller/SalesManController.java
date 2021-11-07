@@ -21,7 +21,7 @@ public class SalesManController {
         try{
            return new ResponseEntity<>(salesManService.getAllSalesMan(), HttpStatus.OK);
         }catch (Exception e){
-            return  new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR );
+            return  new ResponseEntity<>(null, HttpStatus.NOT_FOUND );
         }
 
     }
@@ -30,7 +30,7 @@ public class SalesManController {
         try {
             return new ResponseEntity<>(salesManService.getSalesManBySid(sid),HttpStatus.OK);
         }catch (Exception e){
-            return new ResponseEntity<>(null,HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity<>(null,HttpStatus.NOT_FOUND);
         }
     }
     @PutMapping
@@ -39,7 +39,7 @@ public class SalesManController {
             salesManService.updateSalesMan(salesMan);
             return  ResponseEntity.ok().build();
         }catch (Exception e){
-            return ResponseEntity.internalServerError().build();
+            return ResponseEntity.badRequest().build();
         }
 
     }
@@ -49,7 +49,7 @@ public class SalesManController {
             salesManService.addNewSalesMan(salesMan);
             return ResponseEntity.status(HttpStatus.CREATED).build();
         }catch (Exception e){
-            return ResponseEntity.internalServerError().build();
+            return ResponseEntity.badRequest().build();
         }
 
     }
@@ -59,7 +59,7 @@ public class SalesManController {
             salesManService.deleteSaleMan(sid);
             return ResponseEntity.accepted().build();
         }catch (Exception e){
-            return ResponseEntity.internalServerError().build();
+            return ResponseEntity.notFound().build();
         }
     }
 }

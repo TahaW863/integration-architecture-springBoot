@@ -21,7 +21,7 @@ public class EvaluationRecordController {
         try {
             return new ResponseEntity<>(evaluationRecordService.getAll(), HttpStatus.OK);
         }catch (Exception e){
-            return new ResponseEntity<>(null,HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity<>(null,HttpStatus.NOT_FOUND);
         }
 
     }
@@ -31,7 +31,7 @@ public class EvaluationRecordController {
             evaluationRecordService.createEV(evaluationRecord);
             return ResponseEntity.status(HttpStatus.CREATED).build();
         }catch (Exception e){
-            return ResponseEntity.internalServerError().build();
+            return ResponseEntity.badRequest().build();
         }
 
     }
@@ -41,7 +41,7 @@ public class EvaluationRecordController {
             evaluationRecordService.updateEV(evaluationRecord);
             return ResponseEntity.ok().build();
         }catch (Exception e){
-            return ResponseEntity.internalServerError().build();
+            return ResponseEntity.badRequest().build();
         }
 
     }
@@ -51,7 +51,7 @@ public class EvaluationRecordController {
             evaluationRecordService.deleteEVs(sid);
             return ResponseEntity.ok().build();
         }catch (Exception e){
-            return ResponseEntity.internalServerError().build();
+            return ResponseEntity.notFound().build();
         }
 
     }
